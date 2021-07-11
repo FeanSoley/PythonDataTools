@@ -5,12 +5,6 @@ import openpyxl, os, xlsxwriter
 outputFile = 'Output Data.xlsx'
 #sheetNumber = 0
 
-dir = input('Enter Folder Path: ')
-rowNumber = int(input('Enter row number (starting at 1): '))
-colNumber = int(input('Enter column number (A=1, B=2, etc): '))
-sheetNumber = int(input('Sheet Number (starting at 0): '))
-
-
 def getFileList(dir):
     fileList = []
     for root, dirs, files in os.walk(dir):
@@ -20,15 +14,21 @@ def getFileList(dir):
     return fileList
 
 def getDataFromFile(inputRow, inputCol, filename, sheetNumber):
+    # Open workbook
     workbook = openpyxl.load_workbook(filename)
+    # open sheet based on user selected sheet
     sheet = workbook.worksheets[sheetNumber]
+    # Get value
     returnValue = sheet.cell(inputRow, inputCol).value
     return returnValue
 
 def printListToExcel(list, filename):
+    # Open write workbook
     workbook = xlsxwriter.Workbook(filename)
+    # Create new sheet
     worksheet = workbook.add_worksheet()
     
+    # For each peice of data print file and data value
     currentRow = 0
     for file, data in list:
         worksheet.write(currentRow, 0, file)
@@ -37,18 +37,29 @@ def printListToExcel(list, filename):
     
     workbook.close()
 
-cleanedDir = dir.replace('\\', '/')
-
-fileList = getFileList(dir)
-
-list = []
-
-for file in fileList:
-    value = getDataFromFile(rowNumber, colNumber, dir+'/'+file, sheetNumber)
-    list.append([file, value])
+if __name__ == '__main__':
+    # Get inputs from user
+    dir = input('Enter Folder Path: ')
+    rowNumber = int(input('Enter row number (starting at 1): '))
+    colNumber = int(input('Enter column number (A=1, B=2, etc): '))
+    sheetNumber = int(input('Sheet Number (starting at 0): '))
     
-printListToExcel(list, outputFile)
+    # Clean up folder path given from user, remove back slashes
+    cleanedDir = dir.replace('\\', '/')
 
-print('Created Excel File\n')
+    # Get file list from folder path
+    fileList = getFileList(dir)
 
-end = input('Press Enter to continue')
+    list = []
+    # For each file get data based on given row and column
+    for file in fileList:
+        value = getDataFromFile(rowNumber, colNumber, dir+'/'+file, sheetNumber)
+        list.append([file, value])
+    
+    # print data to excel file
+    printListToExcel(list, outputFile)
+
+    # Tell user file was created and wait for their input
+    print('Created Excel File\n')
+
+    end = input('Press Enter to continue')
