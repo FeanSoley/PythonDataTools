@@ -15,7 +15,7 @@ def getFileList(dir):
 
 def getDataFromFile(inputRow, inputCol, filename, sheetNumber):
     # Open workbook
-    workbook = openpyxl.load_workbook(filename, data_only=True)
+    workbook = openpyxl.load_workbook(filename, data_only=True, read_only=True)
     # open sheet based on user selected sheet
     sheet = workbook.worksheets[sheetNumber]
     # Get value
