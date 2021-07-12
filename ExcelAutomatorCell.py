@@ -15,11 +15,12 @@ def getFileList(dir):
 
 def getDataFromFile(inputRow, inputCol, filename, sheetNumber):
     # Open workbook
-    workbook = openpyxl.load_workbook(filename)
+    workbook = openpyxl.load_workbook(filename, data_only=True)
     # open sheet based on user selected sheet
     sheet = workbook.worksheets[sheetNumber]
     # Get value
     returnValue = sheet.cell(inputRow, inputCol).value
+    workbook.close()
     return returnValue
 
 def printListToExcel(list, filename):
@@ -34,7 +35,6 @@ def printListToExcel(list, filename):
         worksheet.write(currentRow, 0, file)
         worksheet.write(currentRow, 1, data)
         currentRow += 1
-    
     workbook.close()
 
 if __name__ == '__main__':

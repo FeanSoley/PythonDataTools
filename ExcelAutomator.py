@@ -19,7 +19,7 @@ def getFileList(dir):
     return fileList
 
 def getDataFromFile(valueString, filename, sheetNumber, direction):
-    workbook = openpyxl.load_workbook(filename)
+    workbook = openpyxl.load_workbook(filename, data_only=True)
     sheet = workbook.worksheets[sheetNumber]
     row, col = findValueString(valueString, sheet)
     newRow = row
@@ -35,6 +35,7 @@ def getDataFromFile(valueString, filename, sheetNumber, direction):
     else:
         print('WRONG DIRECTION')
     returnValue = sheet.cell(newRow, newCol).value
+    workbook.close()
     return returnValue
 
 
