@@ -12,10 +12,10 @@ direction = input('Enter location of data from search word (l, r, u d) :')
 
 def getFileList(dir):
     fileList = []
-    for root, dirs, files in os.walk(dir):
-        for file in files:
-            if file.endswith('.xls') or file.endswith('.xlsx'):
-                fileList.append(file)
+    files = os.listdir(dir)
+    for file in files:
+        if '.xls' in file or '.xlsx' in file:
+            fileList.append(file)
     return fileList
 
 def getDataFromFile(valueString, filename, sheetNumber, direction):

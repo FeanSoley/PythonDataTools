@@ -7,10 +7,10 @@ outputFile = 'Output Data.xlsx'
 
 def getFileList(dir):
     fileList = []
-    for root, dirs, files in os.walk(dir):
-        for file in files:
-            if file.endswith('.xls') or file.endswith('.xlsx'):
-                fileList.append(file)
+    files = os.listdir(dir)
+    for file in files:
+        if '.xls' in file or '.xlsx' in file:
+            fileList.append(file)
     return fileList
 
 def getDataFromFile(inputRow, inputCol, filename, sheetNumber):
