@@ -21,6 +21,7 @@ def getDataFromFile(inputRow, inputCol, filename, sheetNumber):
     # Get value
     returnValue = sheet.cell(inputRow, inputCol).value
     workbook.close()
+    workbook = None
     return returnValue
 
 def printListToExcel(list, filename):
